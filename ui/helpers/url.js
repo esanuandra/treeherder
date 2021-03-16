@@ -159,3 +159,11 @@ export const updateQueryParams = function updateHistoryWithQueryParams(
 ) {
   history.push({ pathname: location.pathname, search: queryParams });
 };
+
+export const createAbsoluteUrl = (url) => {
+  const absoluteUrl = url.startsWith('/')
+    ? `${process.env.BACKEND}${url}`
+    : url;
+
+  return absoluteUrl;
+};

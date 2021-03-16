@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
+import fetch from 'node-fetch';
 
 import { processErrorMessage } from './errorMessage';
+import { createAbsoluteUrl } from './url';
 
 const generateHeaders = function generateHeaders() {
   return new Headers({
@@ -12,7 +14,7 @@ const generateHeaders = function generateHeaders() {
 
 export const getData = async function getData(url, options = {}) {
   let failureStatus = null;
-  const response = await fetch(url, options);
+  const response = await fetch(createAbsoluteUrl(url), options);
 
   if (!response.ok) {
     failureStatus = response.status;
