@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import { Provider } from 'react-redux';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import thunk from 'redux-thunk';
@@ -15,6 +15,10 @@ const mockStore = configureMockStore([thunk]);
 const repoName = 'autoland';
 const history = createBrowserHistory();
 const router = { location: history.location };
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 beforeEach(() => {
   fetchMock.get('https://treestatus.mozilla-releng.net/trees/autoland', {

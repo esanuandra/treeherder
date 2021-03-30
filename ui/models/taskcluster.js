@@ -1,5 +1,6 @@
 import defaults from 'lodash/defaults';
 import jsone from 'json-e';
+import fetch from 'node-fetch';
 import { Auth, Hooks, slugid } from 'taskcluster-client-web';
 import { satisfiesExpression } from 'taskcluster-lib-scopes';
 

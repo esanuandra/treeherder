@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider, ReactReduxContext } from 'react-redux';
-import fetchMock from 'fetch-mock';
+import fetchMockAlternative from 'fetch-mock';
 import { render, cleanup, waitFor, fireEvent } from '@testing-library/react';
 import { ConnectedRouter } from 'connected-react-router';
 
@@ -21,6 +21,10 @@ import { setPushes } from '../../../../ui/job-view/redux/stores/pushes';
 import reposFixture from '../../mock/repositories';
 import KeyboardShortcuts from '../../../../ui/job-view/KeyboardShortcuts';
 import { pinJobs } from '../../../../ui/job-view/redux/stores/pinnedJobs';
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('DetailsPanel', () => {
   const repoName = 'autoland';
@@ -66,7 +70,7 @@ describe('DetailsPanel', () => {
       'https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/JFVlnwufR7G9tZu_pKM0dQ/runs/0/artifacts',
       { artifacts: [] },
     );
-    fetchMock.get(
+    fetchMockAlternative.get(
       'https://firefox-ci-tc.services.mozilla.com/api/queue/v1/task/JFVlnwufR7G9tZu_pKM0dQ',
       taskDefinition,
     );
@@ -77,6 +81,7 @@ describe('DetailsPanel', () => {
   afterEach(() => {
     cleanup();
     fetchMock.reset();
+    fetchMockAlternative.reset();
     history.push('/');
   });
 

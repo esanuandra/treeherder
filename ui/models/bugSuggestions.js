@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 import { getProjectJobUrl } from '../helpers/location';
 
 export default class BugSuggestionsModel {

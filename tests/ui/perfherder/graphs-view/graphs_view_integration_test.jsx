@@ -3,9 +3,10 @@ import path from 'path';
 import React from 'react';
 import { Polly } from '@pollyjs/core';
 import NodeHttpAdapter from '@pollyjs/adapter-node-http';
+import FetchAdapter from '@pollyjs/adapter-fetch';
 import FsPersister from '@pollyjs/persister-fs';
-import { setupPolly } from 'setup-polly-jest';
 import fetch from 'node-fetch';
+import { setupPolly } from 'setup-polly-jest';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import repos from '../../mock/repositories';
@@ -26,11 +27,12 @@ const graphsView = () => {
   );
 };
 
+Polly.register(FetchAdapter);
 Polly.register(NodeHttpAdapter);
 Polly.register(FsPersister);
 
 describe('GraphsViewRecord Test', () => {
-  const context = setupPolly({
+  const config = {
     adapters: ['node-http'],
     persister: 'fs',
     persisterOptions: {
@@ -38,13 +40,14 @@ describe('GraphsViewRecord Test', () => {
         recordingsDir: path.resolve(__dirname, 'recordings'),
       },
     },
-  });
+  };
+  const context = setupPolly(config);
 
   test('should be able to record', async () => {
     context.polly.configure({ recordIfMissing: true });
 
     const response = await fetch(
-      'http://localhost:5000/api/changelog/?startdate=2021-02-17',
+      'https://treeherder.mozilla.org/api/changelog/?startdate=2021-02-17',
     );
 
     expect(response).not.toBeNull();

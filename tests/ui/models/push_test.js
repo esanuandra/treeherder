@@ -1,7 +1,11 @@
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 
 import PushModel from '../../../ui/models/push';
 import { getProjectUrl } from '../../../ui/helpers/location';
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('PushModel', () => {
   afterEach(() => {

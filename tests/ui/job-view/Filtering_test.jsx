@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+import fetchMockAlternative from 'fetch-mock';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { ConnectedRouter } from 'connected-react-router';
 import { Provider, ReactReduxContext } from 'react-redux';
@@ -9,11 +9,15 @@ import App from '../../../ui/job-view/App';
 import taskDefinition from '../mock/task_definition.json';
 import pushListFixture from '../mock/push_list';
 import reposFixture from '../mock/repositories';
-import { getApiUrl, bzBaseUrl } from '../../../ui/helpers/url';
+import { getApiUrl, bzBaseUrl, getServiceUrl } from '../../../ui/helpers/url';
 import { getProjectUrl } from '../../../ui/helpers/location';
 import jobListFixtureOne from '../mock/job_list/job_1';
 import jobMap from '../mock/job_map';
 import { configureStore } from '../../../ui/job-view/redux/configureStore';
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 const repoName = 'autoland';
 const treeStatusResponse = {
@@ -46,7 +50,7 @@ const testApp = () => {
 describe('Filtering', () => {
   beforeAll(() => {
     fetchMock.reset();
-    fetchMock.get('/revision.txt', []);
+    fetchMock.get(getServiceUrl('/revision.txt'), []);
     fetchMock.get(getApiUrl('/repository/'), reposFixture);
     fetchMock.get(getApiUrl('/user/'), []);
     fetchMock.get(getApiUrl('/failureclassification/'), []);
@@ -80,6 +84,7 @@ describe('Filtering', () => {
 
   afterAll(() => {
     fetchMock.reset();
+    fetchMockAlternative.reset();
   });
 
   const jobCount = () => document.querySelectorAll('.job-btn').length;

@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 import { getProjectUrl } from '../helpers/location';
 import { createQueryParams } from '../helpers/url';
 

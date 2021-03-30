@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import { render, cleanup, waitFor } from '@testing-library/react';
 
 import CommitHistory from '../../../ui/push-health/CommitHistory';
@@ -7,10 +7,17 @@ import pushHealth from '../mock/push_health';
 import repositories from '../mock/repositories';
 import RepositoryModel from '../../../ui/models/repository';
 import { toDateStr } from '../../../ui/helpers/display';
+import { getServiceUrl } from '../../../ui/helpers/url';
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 beforeEach(() => {
   fetchMock.get(
-    '/api/project/autoland/push/health_summary/?revision=eeb6fd68c0223a72d8714734a34d3e6da69995e1&with_in_progress_tests=true',
+    getServiceUrl(
+      '/api/project/autoland/push/health_summary/?revision=eeb6fd68c0223a72d8714734a34d3e6da69995e1&with_in_progress_tests=true',
+    ),
     [{ needInvestigation: 87, unsupported: 8 }],
   );
 });

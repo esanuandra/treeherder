@@ -7,6 +7,7 @@ import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { push as pushRoute } from 'connected-react-router';
+import fetch from 'node-fetch';
 
 import { thFavicons, thDefaultRepo, thEvents } from '../helpers/constants';
 import ShortcutTable from '../shared/ShortcutTable';
@@ -17,6 +18,7 @@ import {
   deployedRevisionUrl,
   parseQueryParams,
   createQueryParams,
+  getServiceUrl,
 } from '../helpers/url';
 import ClassificationTypeModel from '../models/classificationType';
 import FilterModel from '../models/filter';
@@ -179,6 +181,8 @@ class App extends React.Component {
     if (this.updateInterval) {
       clearInterval(this.updateInterval);
     }
+    // fix Warning: Can't perform a React state update on an unmounted component
+    this.setState = () => {};
   }
 
   static getSplitterDimensions(hasSelectedJob) {
@@ -296,7 +300,9 @@ class App extends React.Component {
   };
 
   fetchDeployedRevision() {
-    return fetch(deployedRevisionUrl).then((resp) => resp.text());
+    return fetch(getServiceUrl(deployedRevisionUrl)).then((resp) =>
+      resp.text(),
+    );
   }
 
   updateButtonClick() {

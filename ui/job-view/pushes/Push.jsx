@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import sortBy from 'lodash/sortBy';
 import { Col } from 'reactstrap';
+import fetch from 'node-fetch';
 
 import {
   thEvents,

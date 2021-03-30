@@ -9,6 +9,8 @@ export const uiPushHealthBase = '/push-health';
 
 export const bzBaseUrl = 'https://bugzilla.mozilla.org/';
 
+export const trBaseUrl = 'https://treeherder.mozilla.org';
+
 export const hgBaseUrl = 'https://hg.mozilla.org/';
 
 export const dxrBaseUrl = 'https://dxr.mozilla.org/';
@@ -71,7 +73,8 @@ export const createQueryParams = function createQueryParams(params) {
 // Leaving this here since even though SERVICE_DOMAIN no longer exists (proxying
 // is used instead), it provides a single place to modify if needed in the future.
 export const getServiceUrl = function getServiceUrl(uri) {
-  return uri;
+  const baseUrl = process.env.BACKEND || trBaseUrl;
+  return `${baseUrl}${uri}`;
 };
 
 export const getApiUrl = function getApiUrl(uri) {
@@ -161,9 +164,7 @@ export const updateQueryParams = function updateHistoryWithQueryParams(
 };
 
 export const createAbsoluteUrl = (url) => {
-  const absoluteUrl = url.startsWith('/')
-    ? `${process.env.BACKEND}${url}`
-    : url;
+  const absoluteUrl = url.startsWith('/') ? getServiceUrl(url) : url;
 
   return absoluteUrl;
 };

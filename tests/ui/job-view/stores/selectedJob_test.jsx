@@ -1,4 +1,4 @@
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import thunk from 'redux-thunk';
 import { waitFor } from '@testing-library/react';
 import configureMockStore from 'redux-mock-store';
@@ -20,6 +20,10 @@ import jobListFixtureOne from '../../mock/job_list/job_1';
 const jobMap = keyBy(group.jobs, 'id');
 let notifications = [];
 const history = createBrowserHistory();
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('SelectedJob Redux store', () => {
   const mockStore = configureMockStore([thunk]);

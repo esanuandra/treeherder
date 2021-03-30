@@ -1,10 +1,14 @@
 import React from 'react';
 import { mount } from 'enzyme/build';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 
 import { hgBaseUrl, bzBaseUrl } from '../../../ui/helpers/url';
 import { isReftest } from '../../../ui/helpers/job';
 import { BugFilerClass } from '../../../ui/shared/BugFiler';
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('BugFiler', () => {
   const fullLog =

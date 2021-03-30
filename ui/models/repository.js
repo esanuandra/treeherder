@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 import { getApiUrl, repoEndpoint } from '../helpers/url';
 
 export default class RepositoryModel {

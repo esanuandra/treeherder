@@ -1,4 +1,4 @@
-import fetchMock from 'fetch-mock';
+import fetchMockAlternative from 'fetch-mock';
 
 import JobModel from '../../../ui/models/job';
 import { decisionTaskIdCache } from '../../../ui/models/push';
@@ -8,9 +8,14 @@ import paginatedJobListFixtureTwo from '../mock/job_list/pagination/page_2';
 import repositories from '../mock/repositories';
 import { getProjectUrl } from '../../../ui/helpers/location';
 
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
+
 describe('JobModel', () => {
   afterEach(() => {
     fetchMock.reset();
+    fetchMockAlternative.reset();
   });
 
   describe('pagination', () => {
@@ -71,8 +76,11 @@ describe('JobModel', () => {
         paginatedJobListFixtureOne,
       );
       fetchMock.mock(decisionTaskMapUrl, decisionTaskMap);
-      fetchMock.get(tcActionsUrl, { version: 1, actions: [{ name: 'foo' }] });
-      fetchMock.get(tcTaskUrl, {});
+      fetchMock.get(tcActionsUrl, {
+        version: 1,
+        actions: [{ name: 'foo' }],
+      });
+      fetchMockAlternative.get(tcTaskUrl, {});
 
       // Must clear the cache, because we save each time we
       // call the API for a decision task id.
@@ -99,9 +107,10 @@ describe('JobModel', () => {
         true,
       );
       await fetchMock.flush();
+      await fetchMockAlternative.flush();
 
       expect(fetchMock.called(decisionTaskMapUrl)).toBe(false);
-      expect(fetchMock.called(tcTaskUrl)).toBe(false);
+      expect(fetchMockAlternative.called(tcTaskUrl)).toBe(false);
       expect(fetchMock.called(tcActionsUrl)).toBe(true);
     });
 
@@ -110,7 +119,7 @@ describe('JobModel', () => {
       await fetchMock.flush();
 
       expect(fetchMock.called(decisionTaskMapUrl)).toBe(true);
-      expect(fetchMock.called(tcTaskUrl)).toBe(false);
+      expect(fetchMockAlternative.called(tcTaskUrl)).toBe(false);
       expect(fetchMock.called(tcActionsUrl)).toBe(true);
     });
 
@@ -124,7 +133,7 @@ describe('JobModel', () => {
       );
 
       expect(fetchMock.called(decisionTaskMapUrl)).toBe(false);
-      expect(fetchMock.called(tcTaskUrl)).toBe(true);
+      expect(fetchMockAlternative.called(tcTaskUrl)).toBe(true);
       expect(fetchMock.called(tcActionsUrl)).toBe(true);
     });
 
@@ -132,7 +141,7 @@ describe('JobModel', () => {
       await JobModel.cancel(testJobs, currentRepo, () => {}, null, true);
 
       expect(fetchMock.called(decisionTaskMapUrl)).toBe(true);
-      expect(fetchMock.called(tcTaskUrl)).toBe(true);
+      expect(fetchMockAlternative.called(tcTaskUrl)).toBe(true);
       expect(fetchMock.called(tcActionsUrl)).toBe(true);
     });
 
@@ -148,7 +157,7 @@ describe('JobModel', () => {
       );
 
       expect(fetchMock.called(decisionTaskMapUrl)).toBe(false);
-      expect(fetchMock.called(tcTaskUrl)).toBe(false);
+      expect(fetchMockAlternative.called(tcTaskUrl)).toBe(false);
       expect(fetchMock.called(tcActionsUrl)).toBe(true);
     });
 
@@ -156,7 +165,7 @@ describe('JobModel', () => {
       await JobModel.cancelAll(526443, currentRepo, () => {}, null, true);
 
       expect(fetchMock.called(decisionTaskMapUrl)).toBe(true);
-      expect(fetchMock.called(tcTaskUrl)).toBe(false);
+      expect(fetchMockAlternative.called(tcTaskUrl)).toBe(false);
       expect(fetchMock.called(tcActionsUrl)).toBe(true);
     });
   });

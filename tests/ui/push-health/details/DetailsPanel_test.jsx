@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, waitFor, fireEvent } from '@testing-library/react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 
 import pushHealth from '../../mock/push_health.json';
 import fullJob from '../../mock/full_job.json';
@@ -17,6 +17,10 @@ const selectedTaskFull = {
   task_id: 'CwGewDH7RjOIZV-b77hGUQ',
   id: 285852125,
 };
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('DetailsPanel', () => {
   beforeAll(() => {

@@ -1,4 +1,4 @@
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import { cloneDeep } from 'lodash';
 
 import FilterAlertsWithVideos from '../../../ui/models/filterAlertsWithVideos';
@@ -13,6 +13,11 @@ import currentJoblistWithoutVideoResultsOne from '../mock/alerts_with_videos/cur
 import currentJoblistWithoutVideoResultsTwo from '../mock/alerts_with_videos/current_joblist_without_video_results_page_2';
 import prevJoblistWithoutVideoResultsOne from '../mock/alerts_with_videos/prev_joblist_without_video_results_page_1';
 import prevJoblistWithoutVideoResultsTwo from '../mock/alerts_with_videos/prev_joblist_without_video_results_page_2';
+import { getServiceUrl } from '../../../ui/helpers/url';
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('FilterAlertsWithVideos', () => {
   afterEach(() => {
@@ -22,19 +27,19 @@ describe('FilterAlertsWithVideos', () => {
   describe('File bug url when alerts contain browsertime results links', () => {
     beforeEach(() => {
       fetchMock.mock(
-        `/api/jobs/?repo=autoland&push_id=847217`,
+        getServiceUrl(`/api/jobs/?repo=autoland&push_id=847217`),
         currentJoblistWithVideoResultsOne,
       );
       fetchMock.mock(
-        `/api/jobs/?repo=autoland&push_id=847217&page=2`,
+        getServiceUrl(`/api/jobs/?repo=autoland&push_id=847217&page=2`),
         currentJoblistWithVideoResultsTwo,
       );
       fetchMock.mock(
-        `/api/jobs/?repo=autoland&push_id=846998`,
+        getServiceUrl(`/api/jobs/?repo=autoland&push_id=846998`),
         prevJoblistWithVideoResultsOne,
       );
       fetchMock.mock(
-        `/api/jobs/?repo=autoland&push_id=846998&page=2`,
+        getServiceUrl(`/api/jobs/?repo=autoland&push_id=846998&page=2`),
         prevJoblistWithVideoResultsTwo,
       );
     });
@@ -69,19 +74,19 @@ describe('FilterAlertsWithVideos', () => {
   describe('File bug url when alerts do not contain browsertime results links', () => {
     beforeEach(() => {
       fetchMock.mock(
-        `/api/jobs/?repo=autoland&push_id=851190`,
+        getServiceUrl(`/api/jobs/?repo=autoland&push_id=851190`),
         currentJoblistWithoutVideoResultsOne,
       );
       fetchMock.mock(
-        `/api/jobs/?repo=autoland&push_id=851190&page=2`,
+        getServiceUrl(`/api/jobs/?repo=autoland&push_id=851190&page=2`),
         currentJoblistWithoutVideoResultsTwo,
       );
       fetchMock.mock(
-        `/api/jobs/?repo=autoland&push_id=847398`,
+        getServiceUrl(`/api/jobs/?repo=autoland&push_id=847398`),
         prevJoblistWithoutVideoResultsOne,
       );
       fetchMock.mock(
-        `/api/jobs/?repo=autoland&push_id=847398&page=2`,
+        getServiceUrl(`/api/jobs/?repo=autoland&push_id=847398&page=2`),
         prevJoblistWithoutVideoResultsTwo,
       );
     });

@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 const uri = 'https://treestatus.mozilla-releng.net/trees/';
 
 export default class TreeStatusModel {

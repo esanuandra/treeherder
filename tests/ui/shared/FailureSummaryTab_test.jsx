@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import { render, cleanup } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
@@ -16,6 +16,10 @@ import { configureStore } from '../../../ui/job-view/redux/configureStore';
 const selectedJob = Object.values(jobMap)[0];
 const history = createBrowserHistory();
 const store = configureStore(history);
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('FailureSummaryTab', () => {
   const repoName = 'autoland';

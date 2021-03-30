@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 import { getApiUrl } from '../helpers/url';
 
 const uri = getApiUrl('/optioncollectionhash/');

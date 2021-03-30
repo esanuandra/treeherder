@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
@@ -17,6 +17,10 @@ const repo = 'try';
 const history = createBrowserHistory();
 const params = 'author=ccoroiu%40mozilla.com&count=5&with_history=true';
 const testUser = { email: 'ccoroiu@mozilla.com', isLoggedIn: true };
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('My Pushes', () => {
   beforeAll(() => {

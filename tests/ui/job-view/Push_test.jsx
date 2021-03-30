@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import { Provider } from 'react-redux';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import { gzip } from 'pako';
@@ -15,6 +15,10 @@ import Push, {
 } from '../../../ui/job-view/pushes/Push';
 import { getApiUrl } from '../../../ui/helpers/url';
 import { findInstance } from '../../../ui/helpers/job';
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 const manifestsByTask = {
   'test-linux1804-64/debug-mochitest-devtools-chrome-e10s-1': [

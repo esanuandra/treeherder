@@ -1,4 +1,5 @@
 import pick from 'lodash/pick';
+import fetch from 'node-fetch';
 
 import { thMaxPushFetchSize } from '../helpers/constants';
 import { getData } from '../helpers/http';

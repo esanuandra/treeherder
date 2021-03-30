@@ -1,4 +1,4 @@
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import thunk from 'redux-thunk';
 import { cleanup } from '@testing-library/react';
 import configureMockStore from 'redux-mock-store';
@@ -36,6 +36,10 @@ const mockStore = configureMockStore([thunk]);
 const emptyBugzillaResponse = {
   bugs: [],
 };
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('Pushes Redux store', () => {
   const repoName = 'autoland';

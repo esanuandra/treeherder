@@ -1,9 +1,13 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import { render, waitFor } from '@testing-library/react';
 
 import PushHealthStatus from '../../../ui/shared/PushHealthStatus';
 import { getProjectUrl } from '../../../ui/helpers/location';
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 beforeEach(() => {
   fetchMock.get(

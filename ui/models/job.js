@@ -1,4 +1,5 @@
 import groupBy from 'lodash/groupBy';
+import fetch from 'node-fetch';
 
 import { createQueryParams, getApiUrl } from '../helpers/url';
 import { formatTaskclusterError } from '../helpers/errorMessage';

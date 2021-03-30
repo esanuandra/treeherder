@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import {
   render,
   cleanup,
@@ -21,6 +21,10 @@ import { configureStore } from '../../../ui/job-view/redux/configureStore';
 const revision = 'cd02b96bdce57d9ae53b632ca4740c871d3ecc32';
 const repo = 'autoland';
 const history = createBrowserHistory();
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 describe('Health', () => {
   beforeAll(() => {

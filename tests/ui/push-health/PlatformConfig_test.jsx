@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import { render, cleanup, waitFor, fireEvent } from '@testing-library/react';
 
 import {
@@ -15,6 +15,10 @@ import bugSuggestions from '../mock/bug_suggestions.json';
 const repoName = 'autoland';
 const { jobs } = pushHealth;
 const testFailure = pushHealth.metrics.tests.details.needInvestigation[2];
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 beforeEach(() => {
   fetchMock.get('https://treestatus.mozilla-releng.net/trees/autoland', {

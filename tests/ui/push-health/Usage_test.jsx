@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchMock from 'fetch-mock';
+// import fetchMock from 'fetch-mock';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
@@ -8,9 +8,17 @@ import { Provider } from 'react-redux';
 import { configureStore } from '../../../ui/job-view/redux/configureStore';
 import healthUsage from '../mock/health_usage';
 import Usage from '../../../ui/push-health/Usage';
+import { getServiceUrl } from '../../../ui/helpers/url';
+
+// eslint-disable-next-line global-require
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+const fetchMock = require('node-fetch');
 
 beforeEach(() => {
-  fetchMock.get('/api/project/try/push/health_usage/', healthUsage);
+  fetchMock.get(
+    getServiceUrl('/api/project/try/push/health_usage/'),
+    healthUsage,
+  );
 });
 
 afterEach(() => {

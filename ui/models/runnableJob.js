@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 import { addAggregateFields } from '../helpers/job';
 import { getRunnableJobsURL } from '../helpers/url';
 import { escapeId } from '../helpers/aggregateId';
